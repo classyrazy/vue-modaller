@@ -1,0 +1,222 @@
+:root {
+  --white: #fff;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --dark: #1f2937;
+  --border-gray: #e0e0e0;
+  --modal-backdrop: rgba(0, 0, 0, 0.2);
+  --modal-border-radius: 0.75rem;
+  --modal-padding: 1rem;
+  --modal-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --modal-z-index: 9999;
+  --modal-content-z-index: 99;
+  --modal-draggable-handle-color: #ccc;
+  --modal-draggable-handle-hover-color: #999;
+  --modal-draggable-handle-active-color: #666;
+  --modal-draggable-handle-height: 5px;
+  --modal-draggable-handle-width: 45px;
+  --modal-draggable-handle-radius: 4px;
+  --modal-draggable-handle-margin-top: 10px;
+  --modal-draggable-handle-margin-bottom: 10px;
+}
+
+/* Modal CSS */
+@import './modal.css';
+
+/* BEM Modal Components */
+
+/* Modal Wrapper - Main container */
+.__modal-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: var(--modal-z-index);
+  top: 0;
+  left: 0;
+}
+
+.__modal-wrapper--centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.__modal-wrapper--side {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  top: 0;
+  right: 0;
+}
+
+/* Modal Backdrop */
+.__modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--modal-backdrop);
+  cursor: pointer;
+  inset: 0;
+}
+
+.__modal-backdrop--blur {
+  backdrop-filter: blur(2.5px);
+}
+
+/* Modal Content */
+.__modal-content {
+  padding: var(--modal-padding);
+  box-shadow: var(--modal-shadow);
+  z-index: var(--modal-content-z-index);
+  width: 100%;
+  pointer-events: auto;
+  overflow-y: auto;
+  background-color: var(--white);
+}
+
+.__modal-content--standard {
+  max-width: 100%;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.__modal-content--side {
+  height: 100%;
+  max-width: 25rem;
+}
+
+@media (min-width: 1024px) {
+  .__modal-content--side {
+    max-width: 30rem;
+  }
+}
+
+.__modal-content--panel {
+  width: 100%;
+  max-height: 50vh;
+  border-radius: 1rem 1rem 0 0;
+  margin: 0;
+}
+
+.__modal-wrapper--dragable {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  top: 0;
+  left: 0;
+}
+
+.__modal-wrapper--draggable {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  top: 0;
+  left: 0;
+}
+
+.__modal-content--dragable.dragging {
+  transition: none;
+}
+
+.__modal-content--draggable {
+  width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  border-radius: 18px 18px 0 0;
+  margin: 0;
+  transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+  position: absolute;
+  bottom: 0;
+  touch-action: none;
+  overflow: hidden;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.__modal-content--draggable.__modal-content--dragging {
+  transition: none;
+}
+
+/* Modal Header */
+.__modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.__modal-header__title {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+.__modal-header__title--standard {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.__modal-header__title--side {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.__modal-header__close-btn {
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--border-gray);
+  border-radius: 9999px;
+  background-color: transparent;
+  font-size: 1.25rem;
+  color: var(--dark);
+}
+
+.__modal-header__close-btn:hover {
+  background-color: #f3f4f6;
+}
+
+/* Modal Body */
+/* .__modal-body {
+  padding: 0;
+} */
+
+@media (min-width: 768px) {
+  .__modal-body {
+    padding: 0;
+  }
+}
+
+/* Modal Drag Handle */
+.__modal-drag-handle {
+  cursor: grab;
+  background: var(--modal-draggable-handle-color);
+  height: var(--modal-draggable-handle-height);
+  width: var(--modal-draggable-handle-width);
+  border-radius: var(--modal-draggable-handle-radius);
+  margin-top: var(--modal-draggable-handle-margin-top);
+  margin-bottom: var(--modal-draggable-handle-margin-bottom);
+  margin-left: auto;
+  margin-right: auto;
+  transition: background-color 0.2s;
+}
+
+.__modal-drag-handle:hover {
+  background: var(--modal-draggable-handle-hover-color);
+}
+
+.__modal-drag-handle:active {
+  cursor: grabbing;
+  background: var(--modal-draggable-handle-active-color);
+}
+.__hidden {
+  display: none;
+}
+
+
+

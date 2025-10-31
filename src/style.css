@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+
+@theme {
+    --color-primary: rgba(161, 234, 148, 1);
+    --color-secondary: #525252;
+    --color-primary-deep: #0A6037;
+    --color-light-grey: #F3F4F6;
+    --color-kashmir-blue: #596780;
+    --grad-primary: linear-gradient(180deg, #4ADE80 0%, #16A34A 100%);
+}
