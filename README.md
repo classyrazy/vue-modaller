@@ -1,146 +1,201 @@
-<!-- PROJECT LOGO -->
+# VueModaller
 
-<div align="center">
-  <a href="https://github.com/kaandesu/vue3-vite-npm-template">
-    <img src="public/logo.webp" alt="Logo" width="110">
-  </a>
+A flexible and powerful modal system for Vue 3 applications with TypeScript support, featuring draggable modals, side panels, and smooth animations.
 
-<br>
-<!-- add tech stack badges below -->
+## Features
 
-![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white) <!-- Title -->
+✨ **Multiple Modal Types**
+- Standard modals
+- Side panels 
+- Panel modals
+- Draggable modals (Instagram-style)
 
-  <h3 align="center">Complete Vue3 NPM Package Template</h3>
-   <!-- DESCRIPTION -->
-  <p align="center">
-    An all-in-one solution for crafting Vue3-based NPM packages with Vite, complete with built-in GitHub Pages live-demo deployment, automated test-and-build workflows, and Vite-powered unit test configuration, including coverage analysis and a README.md template for your package.
-    <br />        
-    <br />
-    <!-- CHANGER IT WITH YOUR GITHUB PAGES LINK -->
-    <a href="https://kaandesu.github.io/vue3-vite-npm-template/#/">Live Demo</a>
-    ·<!-- CHANGER IT WITH YOUR GITHUB ISSUES LINK -->
-    <a href="https://github.com/kaandesu/vue3-vite-npm-template/issues">Report Bug</a>
-    ·<!-- CHANGER IT WITH YOUR GITHUB ISSUES LINK -->
-    <a href="https://github.com/kaandesu/vue3-vite-npm-template/issues">Request Feature</a>
-  </p>
-</div>
+🎨 **Customizable**
+- CSS variables for easy theming
+- BEM methodology for styling
+- Configurable animations
+- Custom handle styles for draggable modals
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>    
-    <li><a href="#project-setup">Project Setup</a></li>
-    <li><a href="#repository-and-automation-setup">Repository and Automation Setup</a></li>
-    <li><a href="#publishing-to-npm">Publishing to NPM</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>    
-  </ol>
-</details>
+🚀 **Developer Experience**
+- TypeScript support
+- Vue 3 Composition API
+- Easy to use composable
+- Global component registration
 
-<br>
-<!-- GETTING STARTED -->
+📱 **Mobile-Friendly**
+- Touch gesture support
+- Smooth animations
+- Responsive design
 
-> [!NOTE] This README.md mainly contains information about how to setup the [project](#project-setup) and the [repository/automation](#repository-and-automation-setup). However, it is also made for users to use this README as a template as well. So, it is highly recommended to edit this README.md file to make it your own. For feature requests, don't hesitate to open an [issue](https://github.com/kaandesu/vue3-vite-npm-template/issues/new)!
-
-## Project Setup
-
-1. **_Package Name Setup:_** Change the package name (every occurrence) in `package.json` and `vite.config.ts` files.
-
-2. **_Write your plugin:_** Start writing your plugin in the `src/myPackagePlugin` folder. As a default, entry will be from its `index.ts` file. You may change the folder name and/or the entry file name, but don't forget to update the `vite.config.ts` file accordingly.
-
-3. **_ChangesetBot_**: Add Changeset Bot and configure. (See [Changeset Bot](https://github.com/apps/changeset-bot) for details)
-
-## Repository and Automation Setup
-
-1. **_Workflow Permissions for Automation_**: Visit `https://github.com/[username]/[REPOSITORY]/settings/actions` and add workflow permissions (read & write)..
-
-2. **_Enable Github Pages:_** If you have a live-demo to showcase your package, create a new branch called 'gh-pages' for github pages deployment. (The index.html will be built and deployed to this branch seperately from your plugin build. See [deploy.yaml](.github/workflows/deploy.yaml) workflow, delete the file if you don't need it.)
-
-3. **_Branch Security Rules:_** Visit `https://github.com/[username]/[REPOSITORY]/settings/branches` and set the branch protection rules for `main` and `gh-pages` branches. (Requiring pull request reviews before merging to main branch is highly recommended.)
-
-4. **_Codeowners_**: Edit the codeowners file to add your team members as codeowners. (See [CODEOWNERS](CODEOWNERS) for details)
-
-## Publishing to NPM
-
-> Don't forget to update the version number in `package.json` before publishing or use changeset-bot to update version number.
-
-Before publishing test your package, it is recommended to test it locally. First build your package with `npm run build` and create a symbolic link. <br>
-
-1. Navigate to your package's root directory
+## Installation
 
 ```bash
-npm link
+npm install vue-modaller
 ```
 
-2. Switch to the project where you want to test your package locally
+## Quick Start
 
-```bash
-cd your-test-project-directory
-npm link your-package-name
+### 1. Install the plugin
+
+```javascript
+import { createApp } from 'vue'
+import VueModaller from 'vue-modaller'
+import App from './App.vue'
+
+const app = createApp(App)
+app.use(VueModaller)
+app.mount('#app')
 ```
 
-> [!NOTE] > `npm link` creates a symbolic link between your package and your test project. So if you build your package again, it will be reflected in your test project as well.
+### 2. Add ModalRoot to your app
 
-3. Ensure that your package version in `package.json` adheres to semantic versioning
-4. Log in to your NPM account
-
-```bash
-npm login
+```vue
+<template>
+  <div id="app">
+    <!-- Your app content -->
+    <ModalRoot />
+  </div>
+</template>
 ```
 
-5. Run the following command to publish your package
+### 3. Use the useModal composable
 
-```bash
-npm publish
+```vue
+<script setup>
+import { useModal } from 'vue-modaller'
+import MyModalContent from './MyModalContent.vue'
+
+const openModal = async () => {
+  const result = await useModal(MyModalContent, {
+    title: 'My Modal',
+    config: {
+      type: 'modal', // 'modal' | 'side' | 'panel' | 'draggable'
+      blur: true,
+      closeable: true
+    },
+    props: {
+      message: 'Hello from modal!'
+    }
+  })
+  console.log('Modal result:', result)
+}
+</script>
+
+<template>
+  <button @click="openModal">Open Modal</button>
+</template>
 ```
 
-Congratulations! Your package is now published to npm 🎉 <br>
+## Modal Types
 
-<!-- USAGE EXAMPLES -->
+### Standard Modal
+```javascript
+const result = await useModal(Component, {
+  config: {
+    type: 'modal',
+    width: 500,
+    blur: true,
+    closeable: true
+  }
+})
+```
 
-## Usage
+### Side Panel
+```javascript
+const result = await useModal(Component, {
+  config: {
+    type: 'side',
+    blur: true,
+    closeable: true
+  }
+})
+```
 
-> For user to edit this section:
+### Draggable Modal (Instagram-style)
+```javascript
+const result = await useModal(Component, {
+  config: {
+    type: 'draggable',
+    blur: true,
+    closeable: true,
+    draggableConfig: {
+      initialPosition: 'half', // 'full' | 'half'
+      handle: {
+        color: '#ddd',
+        hoverColor: '#bbb',
+        activeColor: '#999'
+      }
+    }
+  }
+})
+```
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+## Configuration Options
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+```typescript
+interface ModalConfig {
+  type?: 'modal' | 'side' | 'panel' | 'draggable'
+  width?: number
+  height?: number | string
+  blur?: boolean
+  closeable?: boolean
+  corner?: string
+  margin?: number
+  padding?: number
+  background?: string
+  anim?: boolean
+  draggableConfig?: {
+    initialPosition?: 'full' | 'half'
+    hideHandle?: boolean
+    handle?: {
+      color?: string
+      hoverColor?: string
+      activeColor?: string
+      height?: string
+      width?: string
+      radius?: string
+      marginTop?: string
+      marginBottom?: string
+    }
+  }
+}
+```
 
-<!-- ROADMAP -->
+## API
 
-## Roadmap
+### useModal(component, options)
 
-> For user to edit this section:
+Opens a modal and returns a promise that resolves with the modal result.
 
-- [x] Add vite configuration
-- [x] Add vitest
-- [x] Add workflows
-- [x] Add vitepress documentation
-- [ ] Some other stuff
-  - [ ] Stuff 1
-  - [ ] Stuff 2
+**Parameters:**
+- `component`: Vue component to render in the modal
+- `options`: Modal configuration object
 
-<!-- CONTRIBUTING -->
+**Returns:** `Promise<any>` - Resolves when modal is closed
 
-## Contributing
+### ModalRoot
 
-Contributions to the project is highly appreciated. If you have any suggestions/questions/requests please consider [opening an issue](https://github.com/kaandesu/vue3-vite-npm-template/issues/new). If you want to contribute to the project, fixing an open issue is greatly recommended and appreciated. To see the all contribution rules please check the [contribution rules](CONTRIBUTING.md).
+Global component that manages modal rendering. Must be added to your app template.
 
-<!-- LICENSE -->
+## Styling
+
+VueModaller uses CSS variables for easy customization:
+
+```css
+:root {
+  --modal-backdrop-color: rgba(0, 0, 0, 0.5);
+  --modal-background-color: #ffffff;
+  --modal-border-radius: 0.75rem;
+  --modal-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --modal-draggable-handle-color: #ddd;
+  /* ... more variables */
+}
+```
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](LICENSE.md) for more information.
+MIT
 
-<!-- CONTACT -->
+## Contributing
 
-## Contact
-
-> For user to edit this section:
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Contributions are welcome! Please feel free to submit a Pull Request.

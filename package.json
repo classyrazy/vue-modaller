@@ -1,9 +1,9 @@
 {
   "name": "vue-modaller",
-  "author": "Your name Classydev (https://github.com/classyrazy)",
-  "version": "0.0.0",
+  "author": "Classydev (https://github.com/classyrazy)",
+  "version": "1.0.3",
   "license": "MIT",
-  "description": "A flexible and powerful modal system for Vue 3 applications with TypeScript support",
+  "description": "A flexible and powerful modal system for Vue 3 applications with TypeScript support, featuring draggable modals, side panels, and smooth animations",
   "private": false,
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "contributors": [
     {
       "name": "Classydev",
-      "email": "o.abdulrazaq.a@gmail.com"
+      "email": "classyrazy014@gmail.com"
     }
   ],
   "keywords": [
@@ -23,23 +23,33 @@
     "dialog",
     "popup",
     "overlay",
+    "draggable",
+    "side-panel",
     "typescript",
     "composable",
-    "plugin"
+    "plugin",
+    "animations",
+    "instagram-style",
+    "draggable-modals",
+    "vue-modals",
+    "vue-dialogs",
+    "vue-popups",
+    "vue-overlays",
+    "vue-modaller"
   ],
-  "homepage": "https://[USERNAME].github.io/vue3-vite-npm-template/",
+  "homepage": "https://classyrazy.github.io/vue-modaller/",
   "bugs": {
-    "url": "https://github.com/[USERNAME]/vue3-vite-npm-template/issues"
+    "url": "https://github.com/classyrazy/vue-modaller/issues"
   },
   "files": [
     "dist"
   ],
-  "main": "./dist/vue3-vite-npm-template.umd.cjs",
-  "module": "./dist/vue3-vite-npm-template.js",
+  "main": "./dist/vue-modaller.umd.cjs",
+  "module": "./dist/vue-modaller.js",
   "exports": {
     ".": {
-      "import": "./dist/vue3-vite-npm-template.js",
-      "require": "./dist/vue3-vite-npm-template.umd.cjs",
+      "import": "./dist/vue-modaller.js",
+      "require": "./dist/vue-modaller.umd.cjs",
       "types": "./dist/index.d.ts"
     },
     "./style.css": "./dist/style.css"
@@ -63,7 +73,6 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.16",
     "@vitejs/plugin-vue": "^4.5.0",
     "vue": "^3.3.8"
   },
@@ -71,7 +80,6 @@
     "@changesets/cli": "^2.26.2",
     "@types/node": "^20.9.4",
     "@vitest/coverage-v8": "^0.34.6",
-    "tailwindcss": "^4.1.16",
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vitepress": "^1.0.0-rc.24",

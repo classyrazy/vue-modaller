@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
-import tailwindcss from "@tailwindcss/vite";
 
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
@@ -8,13 +7,13 @@ export default defineConfig(({ mode }) => {
   if (mode === 'live-demo') {
     return {
       base: './',
-      plugins: [vue(), tailwindcss()],
+      plugins: [vue()],
       test: {
         globals: true,
       },
       resolve: {
         alias: {
-          '~': resolve(__dirname, 'src', 'myPackagePlugin'),
+          '~': resolve(__dirname, 'src', 'VueModaller'),
         },
       },
       build: {
@@ -33,14 +32,14 @@ export default defineConfig(({ mode }) => {
       },
       resolve: {
         alias: {
-          '~': resolve(__dirname, 'src', 'myPackagePlugin'),
+          '~': resolve(__dirname, 'src', 'VueModaller'),
         },
       },
       build: {
         lib: {
-          entry: resolve(__dirname, 'src/myPackagePlugin/index.ts'),
-          name: 'Vue3ViteNpmTemplate',
-          fileName: 'vue3-vite-npm-template',
+          entry: resolve(__dirname, 'src/VueModaller/index.ts'),
+          name: 'VueModaller',
+          fileName: 'vue-modaller',
         },
         rollupOptions: {
           external: ['vue'],
@@ -48,8 +47,10 @@ export default defineConfig(({ mode }) => {
             globals: {
               vue: 'Vue',
             },
+            exports: 'named',
           },
         },
+        cssCodeSplit: false,
       },
     }
   }

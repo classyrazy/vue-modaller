@@ -22,8 +22,6 @@
   --modal-draggable-handle-margin-bottom: 10px;
 }
 
-/* Modal CSS */
-@import './modal.css';
 
 /* BEM Modal Components */
 

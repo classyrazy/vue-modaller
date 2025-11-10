@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
-import ModalRoot from './VueModaller/components/modalRoot.vue'
+// Import from the global plugin (simulating: import { useModal } from 'vue-modaller')
 import { useModal } from './VueModaller/useModal'
 import ExampleModalContent from './components/ExampleModalContent.vue'
 
@@ -39,9 +40,9 @@ const openSidePanel = async () => {
   const result = await useModal(ExampleModalContent, {
     title: 'Side Panel Demo',
     config: {
-      type: 'side',
-      closeable: true,
-      blur: true,
+          type: 'side',
+          closeable: true,
+          blur: true,
        draggableConfig:{
       handle: {
          hoverColor: 'red',
@@ -71,7 +72,9 @@ const openDraggableModal = async () => {
       type: 'draggable',
       blur: true,
       closeable: true,
-      
+    },
+    props: {
+      message: 'This is a draggable modal with smooth JavaScript animations!'
     }
   })
   console.log('Draggable modal result:', result)
@@ -79,15 +82,28 @@ const openDraggableModal = async () => {
 </script>
 
 <template>
+  <!-- ModalRoot is now globally registered by the plugin -->
   <ModalRoot />
 
   <!-- Modal Demo Section -->
   <div class="demo-section">
-    <h2>VueModaller Demo</h2>
-    <div class="demo-buttons">
-      <button @click="openModal" class="demo-btn">Open Modal</button>
-      <button @click="openSidePanel" class="demo-btn">Open Side Panel</button>
-      <button @click="openDraggableModal" class="demo-btn">Open Draggable Modal</button>
+    <h2>VueModaller Demo (Globally Installed Plugin)</h2>
+    <p>Testing VueModaller as a globally installed npm package</p>
+    
+    <div class="demo-subsection">
+      <h3>Using useModal Composable</h3>
+      <div class="demo-buttons">
+        <button @click="openModal" class="demo-btn">Open Modal</button>
+        <button @click="openSidePanel" class="demo-btn">Open Side Panel</button>
+        <button @click="openDraggableModal" class="demo-btn">Open Draggable Modal</button>
+      </div>
+    </div>
+
+    <div class="demo-subsection">
+      <h3>Using Modal Component Directly</h3>
+      <div class="demo-buttons">
+        <button @click="openDirectModal" class="demo-btn">Open Direct Modal</button>
+      </div>
     </div>
   </div>
   
@@ -104,11 +120,24 @@ const openDraggableModal = async () => {
   text-align: center;
 }
 
+.demo-subsection {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.demo-subsection h3 {
+  margin-bottom: 1rem;
+  color: #374151;
+}
+
 .demo-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
   margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 .demo-btn {

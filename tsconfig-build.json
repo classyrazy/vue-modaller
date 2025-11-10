@@ -14,9 +14,9 @@
     "types": ["node"],
     "baseUrl": "./",
     "paths": {
-      "~/*": ["src/myPackagePlugin/*"]
+      "~/*": ["src/VueModaller/*"]
     }
   },
-  "include": ["src/myPackagePlugin/*.ts", "src/myPackagePlugin/*.d.ts"],
+  "include": ["src/VueModaller/**/*.ts", "src/VueModaller/**/*.d.ts", "src/VueModaller/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
