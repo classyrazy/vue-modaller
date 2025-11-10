@@ -1,22 +1,27 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "strict": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "types": ["node"],
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
       "~/*": ["src/VueModaller/*"]
-    }
+    },
+    "types": ["vue"]
   },
   "include": ["src/VueModaller/**/*.ts", "src/VueModaller/**/*.d.ts", "src/VueModaller/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["node_modules", "dist", "src/VueModaller/**/__tests__/**", "src/VueModaller/**/*.test.ts"]
 }

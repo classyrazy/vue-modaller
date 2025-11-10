@@ -1,4 +1,5 @@
-import { type Component, ref } from 'vue';
+import type {  Component, Ref } from 'vue';
+import { ref } from 'vue';
 import { ModalConfig, modalSlot } from './types/global';
 import { markRaw, toRaw } from 'vue';
 
@@ -8,7 +9,8 @@ export interface modalOptionsType extends ModalConfig {
 }
 
 export const modalOpen = ref(false)
-export const compRef = ref<Component[]>([])
+// export const compRef = ref<Component[]>([])
+export const compRef: Ref<Component[]> = ref<Component[]>([])
 export const onClosedFunctions = ref<Function[]>([])
 export const modalTitle = ref("")
 export const modalOptions = ref<modalOptionsType[]>([])

@@ -1,11 +1,11 @@
 import './css/style.css'
-import type { App } from 'vue'
+import type { App, ObjectPlugin } from 'vue'
 import * as components from './components'
 import Modal from './modal.vue'
 import ModalRoot from './components/modalRoot.vue'
 
 // Standard Vue plugin format
-const VueModaller = {
+const VueModaller : ObjectPlugin = {
   install(app: App, options?: any) {
     console.log('Installing VueModaller plugin with options:', options)
     
