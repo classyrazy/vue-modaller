@@ -22,7 +22,7 @@ const defaultConfig: DraggableConfig = {
     activeColor: "#666"
   }
 }
-export const useDraggable = (config: DraggableConfig = defaultConfig, closeCallback: () => void) => {
+export const useDraggable = (config: DraggableConfig = defaultConfig, closeCallback: () => void, modalRef?: { value: boolean }) => {
   const open = ref(false)
   const translateY = ref(0)
   const isDragging = ref(false)
@@ -91,11 +91,15 @@ export const useDraggable = (config: DraggableConfig = defaultConfig, closeCallb
 
   // Close panel with smooth animation
   const closePanel = async () => {
-    await animateToPosition(positions.closed, 300)
-    // Call the close callback after animation completes
-    if (closeCallback) {
-      setTimeout(() => closeCallback(), 50)
+    // Hide modal content immediately for visual responsiveness
+    if (modalRef?.value !== undefined) {
+      modalRef.value = false;
     }
+    // Run the close animation
+    await animateToPosition(positions.closed, 100)
+    // Now call the callback to actually close the modal
+    closeCallback()
+    console.log('Panel closed already');
   }
 
   const startDrag = (e: Event) => {
@@ -175,7 +179,15 @@ export const useDraggable = (config: DraggableConfig = defaultConfig, closeCallb
 
     // Animate to target position
     if (targetPosition === positions.closed) {
-      await closePanel()
+      // Hide modal content immediately for visual responsiveness
+      if (modalRef?.value !== undefined) {
+        modalRef.value = false;
+      }
+      // Use faster animation for closing when dragging with velocity
+      const closeDuration = Math.abs(velocity) > 0.5 ? 100 : 150
+      await animateToPosition(targetPosition, closeDuration)
+      // Now call the callback to actually close the modal
+      closeCallback()
     } else {
       await animateToPosition(targetPosition, 250)
     }

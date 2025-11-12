@@ -10,7 +10,6 @@
         Cancel
       </button>
     </div>
-    <slot name="footer"></slot>
   </div>
 </template>
 

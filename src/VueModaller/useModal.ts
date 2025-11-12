@@ -46,8 +46,8 @@ export const useModal = (comp: Component, options?: {
         background: options?.config.background || "white",
         padding: options?.config.padding || "20px",
         closeable: options?.config.closeable ?? true,
-        blur: options?.config.blur ?? true,
-        corner: options?.config.corner ?? "10px",
+        blur: options?.config.blur || true,
+        corner: options?.config.corner || "10px",
         type: options?.config.type || "modal",
         open: true,
         anim: true,
@@ -56,6 +56,7 @@ export const useModal = (comp: Component, options?: {
         height: options?.config.height || 0,
         mobileType: options?.config.mobileType || "modal",
         draggableConfig: {
+            shadow: options?.config.draggableConfig?.shadow || '0 -4px 12px rgba(0, 0, 0, 0.25)',
             initialPosition: options?.config.draggableConfig?.initialPosition || "half",
             hideHandle: options?.config.draggableConfig?.hideHandle || false,
             handle: {
@@ -70,9 +71,7 @@ export const useModal = (comp: Component, options?: {
             }
         }
     }
-    console.log('configToBeUsed in useModal:', configToBeUsed);
     modalOptions.value.push(configToBeUsed)
-    // modalProps.value = options?.props
     modalProps.value.push({
         ...options?.props,
         onClose: (value: any) => {
@@ -98,6 +97,7 @@ export const useModal = (comp: Component, options?: {
 export const closeModal = (data: any, modalIndexNum: number) => {
     // set a delay for animation to work 
     // Only set animation to false for the specific modal being closed
+    const {type} = modalOptions.value[modalIndexNum];
     if (modalOptions.value[modalIndexNum]) {
         modalOptions.value[modalIndexNum].anim = false;
     }else{
@@ -141,7 +141,7 @@ export const closeModal = (data: any, modalIndexNum: number) => {
             console.log(e);
             throw new Error("Error in your onClosed function");
         }
-    }, 500);
+    }, type !== 'draggable' ? 500 : 0);
     return data;
 };
 

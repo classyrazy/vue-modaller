@@ -4,16 +4,18 @@
     </div>
     <div ref="modalElement"
       :class="[classesBasedOnType.mainModalClass, config?.background ? `bg-${config?.background}` : '__modal-content', anim_class]"
-      @pointerdown="startDrag" v-if="refedModalOpen" :style="{
-        width: computedWidth, maxHeight: computedheight,
-        borderRadius: `${config?.type !== 'side' && config?.type !== 'panel' && config?.type !== 'draggable' ? config?.corner ?? '0.75rem' : '0'}`,
+      @pointerdown="handleStartDrag" v-if="refedModalOpen" :style="{
+        width: config?.type === 'side' || isMobile ? '100%' : computedWidth, 
+        maxHeight: computedheight,
+        borderRadius: computeCorner,
         marginTop: `${config?.margin && config.type == 'side' ? `${config.margin}px` : '0'}`,
-        transform: `translateY(${translateY}px)`
+        transform: config?.type === 'draggable' ? `translateY(${translateY}px)` : '',
+        boxShadow: config?.type === 'draggable' ? config?.draggableConfig?.shadow : '',
       }">
 
       <div class="__modal-body">
         <!-- For Draggable -->
-        <div class="__modal-drag-handle" :class="{ __hidden: config?.draggableConfig?.hideHandle || config?.type !== 'draggable' }" :style="{
+        <div class="__modal-drag-handle" v-if="config?.type === 'draggable'" :class="{ __hidden: config?.draggableConfig?.hideHandle }" :style="{
           '--modal-draggable-handle-color': config?.draggableConfig?.handle?.color,
           '--modal-draggable-handle-hover-color': config?.draggableConfig?.handle?.hoverColor,
           '--modal-draggable-handle-active-color': config?.draggableConfig?.handle?.activeColor,
@@ -35,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, type PropType, nextTick, Ref } from 'vue';
+import { ref, computed, onMounted, type PropType, Ref } from 'vue';
 import type { modalOptionsType } from './useModal';
 import { useDraggable } from './variants/dragable';
 
@@ -44,20 +46,33 @@ const props = defineProps({
   config: Object as PropType<modalOptionsType>,
   modalKeyIndex: Number
 })
+
+const refedModalOpen = ref(false)
+const isMobile = computed(() => window.innerWidth <= 768)
+
 const closeDialog = () => {
-  // For draggable modals, use the smooth close animation
   if (props.config?.type === 'draggable') {
-    closePanel(); // This will handle the animation and call emit('close') after
+    closePanel(); 
   } else {
     emit('close');
   }
 };
+
+// Expose the closeDialog method so it can be called from parent components
+defineExpose({
+  closeDialog
+});
+
 const { isDragging, translateY, startDrag, openPanel, closePanel, isAnimating } = useDraggable(props.config?.draggableConfig, () => {
   emit('close'); // This gets called after the close animation completes
-})
+}, refedModalOpen)
+const handleStartDrag = (event: PointerEvent) => {
+  if (props.config?.type === 'draggable') {
+    startDrag(event);
+  }
+};  
 const handleCloseFromOutside = () => {
   if (props.config?.closeable) {
-    console.log('Modal closed from outside', props.config?.closeable);
     closeDialog();
   }
 }
@@ -82,21 +97,35 @@ const computedheight = computed(() => {
     return '100%';
   }
 });
+const computeCorner = computed(() => {
+  // compute corner radius top bottom side based on type
+  if (props.config?.type === 'side') {
+    return `${props.config?.corner || '10px'} 0 0 ${props.config?.corner || '10px'}`;
+  } else if (props.config?.type === 'panel' || props.config?.type === 'draggable') {
+    return `${props.config?.corner || '10px'} ${props.config?.corner || '10px'} 0 0`;
+  } else {
+    return `${props.config?.corner || '10px'}`;
+  }
+});
+const getActualValue = (value: string | number | undefined): string => {
+  if (typeof value === 'number') {
+    return `${value}px`;
+  } else if (typeof value === 'string') {
+    return value;
+  } else {
+    return '100%';
+  }
+}
 
 let modal_class = ref({
-  modal: { cls: "is-modal", anim_in: "zoomIn", anim_out: "zoomOut", style: `padding: ${props.config?.padding}px;` },
-  panel: { cls: "is-panel", anim_in: "slideInBottom", anim_out: "slideOutBottom", style: 'padding: 0' },
-  draggable: { cls: "is-draggable", anim_in: "", anim_out: "", style: 'padding: 0' },
-  side: { cls: "is-side", anim_in: "slideInRight", anim_out: "slideOutRight", style: 'padding: 0' }
+  modal: { cls: "is-modal", anim_in: "zoomIn", anim_out: "zoomOut", style: `padding: ${getActualValue(props.config?.padding)};` },
+  panel: { cls: "is-panel", anim_in: "slideInBottom", anim_out: "slideOutBottom", style: `padding: ${getActualValue(props.config?.padding)};` },
+  draggable: { cls: "is-draggable", anim_in: "", anim_out: "", style: `padding: ${getActualValue(props.config?.padding)};` },
+  side: { cls: "is-side", anim_in: "slideInRight", anim_out: "slideOutRight", style: `padding: ${getActualValue(props.config?.padding)};` }
 }) as Ref<{ [key: string]: any }>;
 
 const anim_class = computed(() => {
-  // For draggable type, we rely on the draggable system for animations
-  // if (props.config?.type === 'draggable') {
-  //   return ''; // No CSS animation classes - draggable handles its own animations
-  // }
-  
-  // For other types, apply animations normally
+
   return props.config?.anim
     ? modal_class.value[props.config?.type || 'modal'].anim_in
     : modal_class.value[props.config?.type || 'modal'].anim_out;
@@ -119,10 +148,7 @@ const classesBasedOnType = computed(() => {
     tempWrapperClass = '__modal-wrapper--draggable';
     tempModalClass = `__modal-content __modal-content--draggable ${isDragging.value ? '__modal-content--dragging' : ''} ${isAnimating.value ? '__modal-content--animating' : ''}`;
   }
-  //  else if (props.config?.type == 'dragable') {
-  //   tempWrapperClass = '__modal-wrapper--dragable';
-  //   tempModalClass = `__modal-content __modal-content--dragable ${dragState.value}`;
-  // }
+
 
   return {
     mainModalWrapperClass: tempWrapperClass,
@@ -130,23 +156,14 @@ const classesBasedOnType = computed(() => {
   };
 });
 
-const refedModalOpen = ref(false)
-
 onMounted(() => {
   setTimeout(() => {
     refedModalOpen.value = true;
     if(props.config?.type === 'draggable'){
       openPanel(); // This now uses the smooth JavaScript animation
-      console.log('opened draggable with animation')
     }
   }, 100);
 });
 
 </script>
-<style scss>
-@import url('./css/animation.css');
-
-.blur-bg {
-  backdrop-filter: blur(2.5px);
-}
-</style>
+<style src="./css/animation.css"></style>

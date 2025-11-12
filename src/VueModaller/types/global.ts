@@ -4,7 +4,8 @@ type modalType = "modal" | "panel" | "side" | "draggable";
 export interface DraggableConfig {
         initialPosition?: "full" | "half",
         hideHandle?: boolean,
-        handle: {
+        shadow?: string,
+        handle?: {
             color?: string,
             height?: string,
             width?: string,

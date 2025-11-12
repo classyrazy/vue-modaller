@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
 // Import from the global plugin (simulating: import { useModal } from 'vue-modaller')
-import { useModal } from './VueModaller/useModal'
+import { useModal } from './VueModaller'
 import ExampleModalContent from './components/ExampleModalContent.vue'
 
 const openModal = async () => {
@@ -10,7 +10,7 @@ const openModal = async () => {
     title: 'Demo Modal',
     config: {
       // width: 1000,
-      type: 'side',
+      type: 'modal',
       blur: true,
       closeable: false,
       draggableConfig:{
@@ -42,13 +42,8 @@ const openSidePanel = async () => {
     config: {
           type: 'side',
           closeable: true,
-          blur: true,
-       draggableConfig:{
-      handle: {
-         hoverColor: 'red',
-        activeColor: 'blue'
-       }
-      }
+          corner: '20px',
+          blur: false,
     },
     props:{
       message: 'Hello from App.vue!'
@@ -70,8 +65,12 @@ const openDraggableModal = async () => {
     title: 'Draggable Modal',
     config: {
       type: 'draggable',
-      blur: true,
+      blur: false,
       closeable: true,
+      corner: '40px',
+      draggableConfig: {
+        shadow: '0 0 0 rgba(0, 0, 0, 0)', // No shadow
+      }
     },
     props: {
       message: 'This is a draggable modal with smooth JavaScript animations!'
@@ -96,13 +95,6 @@ const openDraggableModal = async () => {
         <button @click="openModal" class="demo-btn">Open Modal</button>
         <button @click="openSidePanel" class="demo-btn">Open Side Panel</button>
         <button @click="openDraggableModal" class="demo-btn">Open Draggable Modal</button>
-      </div>
-    </div>
-
-    <div class="demo-subsection">
-      <h3>Using Modal Component Directly</h3>
-      <div class="demo-buttons">
-        <button @click="openDirectModal" class="demo-btn">Open Direct Modal</button>
       </div>
     </div>
   </div>

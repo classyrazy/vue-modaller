@@ -1,7 +1,5 @@
-import './css/style.css'
+
 import type { App, ObjectPlugin } from 'vue'
-import * as components from './components'
-import Modal from './modal.vue'
 import ModalRoot from './components/modalRoot.vue'
 
 // Standard Vue plugin format
@@ -13,7 +11,7 @@ const VueModaller : ObjectPlugin = {
     // for (const key in components) {
     //   app.component(key, components[key as keyof typeof components])
     // }
-    app.component('Modal', Modal)
+    // app.component('Modal', Modal)
     app.component('ModalRoot', ModalRoot)
   }
 }

@@ -27,6 +27,8 @@
 
 /* Modal Wrapper - Main container */
 .__modal-wrapper {
+  display: flex;
+
   position: fixed;
   width: 100%;
   height: 100%;
@@ -42,11 +44,10 @@
 }
 
 .__modal-wrapper--side {
-  display: flex;
+  display: grid;
   justify-content: flex-end;
-  align-items: flex-end;
-  top: 0;
-  right: 0;
+  /* top: 0;
+  right: 0; */
 }
 
 /* Modal Backdrop */
@@ -64,11 +65,15 @@
 .__modal-backdrop--blur {
   backdrop-filter: blur(2.5px);
 }
+/* Blur modal or not */
+.blur-bg {
+  backdrop-filter: blur(2.5px);
+}
 
 /* Modal Content */
 .__modal-content {
-  padding: var(--modal-padding);
-  box-shadow: var(--modal-shadow);
+  /* padding: var(--modal-padding); */
+  /* box-shadow: var(--modal-shadow); */
   z-index: var(--modal-content-z-index);
   width: 100%;
   pointer-events: auto;
@@ -93,27 +98,29 @@
   }
 }
 
-.__modal-content--panel {
-  width: 100%;
-  max-height: 50vh;
-  border-radius: 1rem 1rem 0 0;
-  margin: 0;
-}
 
-.__modal-wrapper--dragable {
+.__modal-wrapper--panel {
   display: flex;
   justify-content: center;
   align-items: flex-end;
   top: 0;
   left: 0;
+}
+.__modal-content--panel {
+  width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+  position: absolute;
+  bottom: 0;
 }
 
 .__modal-wrapper--draggable {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  top: 0;
-  left: 0;
+  /* align-items: flex-end; */
+  /* top: 0;
+  left: 0; */
 }
 
 .__modal-content--dragable.dragging {
@@ -124,14 +131,12 @@
   width: 100%;
   height: 100vh;
   max-height: 100vh;
-  border-radius: 18px 18px 0 0;
-  margin: 0;
   transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
   position: absolute;
   bottom: 0;
   touch-action: none;
   overflow: hidden;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
+
 }
 
 .__modal-content--draggable.__modal-content--dragging {
@@ -180,13 +185,13 @@
 }
 
 /* Modal Body */
-/* .__modal-body {
-  padding: 0;
-} */
+.__modal-body {
+  padding: var(--modal-padding);
+}
 
 @media (min-width: 768px) {
   .__modal-body {
-    padding: 0;
+    padding: var(--modal-padding);
   }
 }
 
