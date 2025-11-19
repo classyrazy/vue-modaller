@@ -3,28 +3,34 @@
 layout: home
 
 hero:
-  name: 'Vue Vite NPM Template'
-  text: 'Vitepress documentation example'
-  tagline: My great package tagline
+  name: 'VueModaller'
+  text: 'Flexible Vue 3 Modal System'
+  tagline: Beautiful modals with draggable functionality, side panels, and smooth animations
   actions:
     - theme: brand
+      text: Get Started
+      link: /guide/getting-started
+    - theme: alt
       text: Live Demo
-      link: https://kaandesu.github.io/vue3-vite-npm-template/live-demo/index.html
+      link: https://classyrazy.github.io/vue-modaller/live-demo/
     - theme: alt
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: View on GitHub
+      link: https://github.com/classyrazy/vue-modaller
   image:
-    src: https://raw.githubusercontent.com/kaandesu/vue3-vite-npm-template/main/public/logo.webp
-    alt: vue3-vite-npm-template
+    src: /logo.webp
+    alt: VueModaller
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 🎭 Multiple Modal Types
+    details: Standard modals, side panels, bottom panels, and Instagram-style draggable sheets
+  - title: 📱 Responsive Design
+    details: Automatic device detection with adaptive modal types for optimal mobile and desktop UX
+  - title: 🎨 Highly Customizable
+    details: CSS variables, BEM methodology, custom animations, and fully customizable drag handles
+  - title: 🚀 Developer Friendly
+    details: TypeScript support, Vue 3 Composition API, easy integration with detailed documentation
+  - title: ✨ Smooth Animations
+    details: Velocity-based dragging, smooth CSS transitions, and JavaScript-powered animations
+  - title: 🔧 Advanced Features
+    details: Dynamic slots, multiple modal stacking, device detection composable, and lifecycle hooks
 ---

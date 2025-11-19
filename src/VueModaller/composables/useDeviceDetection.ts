@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 
 export const useDeviceDetection = () => {
   const isMobile = ref(false)
