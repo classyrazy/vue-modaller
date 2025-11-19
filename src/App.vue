@@ -78,6 +78,31 @@ const openDraggableModal = async () => {
   })
   console.log('Draggable modal result:', result)
 }
+
+const openResponsiveModal = async () => {
+  const result = await useModal(ExampleModalContent, {
+    title: 'Responsive Modal',
+    config: {
+      type: 'modal', // Desktop: Standard modal
+      mobileType: 'draggable', // Mobile: Draggable modal
+      blur: true,
+      closeable: true,
+      corner: '20px',
+      draggableConfig: {
+        shadow: '0 0 0 rgba(0, 0, 0, 0)', // No shadow
+        handle: {
+          color: '#ddd',
+          hoverColor: '#999',
+          activeColor: '#666'
+        }
+      }
+    },
+    props: {
+      message: 'Desktop: Standard modal | Mobile: Draggable modal'
+    }
+  })
+  console.log('Responsive modal result:', result)
+}
 </script>
 
 <template>
@@ -95,6 +120,7 @@ const openDraggableModal = async () => {
         <button @click="openModal" class="demo-btn">Open Modal</button>
         <button @click="openSidePanel" class="demo-btn">Open Side Panel</button>
         <button @click="openDraggableModal" class="demo-btn">Open Draggable Modal</button>
+        <button @click="openResponsiveModal" class="demo-btn">Open Responsive Modal</button>
       </div>
     </div>
   </div>

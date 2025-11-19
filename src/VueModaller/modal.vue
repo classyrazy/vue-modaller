@@ -5,17 +5,17 @@
     <div ref="modalElement"
       :class="[classesBasedOnType.mainModalClass, config?.background ? `bg-${config?.background}` : '__modal-content', anim_class]"
       @pointerdown="handleStartDrag" v-if="refedModalOpen" :style="{
-        width: config?.type === 'side' || isMobile ? '100%' : computedWidth, 
+        width: computedWidth, 
         maxHeight: computedheight,
         borderRadius: computeCorner,
-        marginTop: `${config?.margin && config.type == 'side' ? `${config.margin}px` : '0'}`,
-        transform: config?.type === 'draggable' ? `translateY(${translateY}px)` : '',
-        boxShadow: config?.type === 'draggable' ? config?.draggableConfig?.shadow : '',
+        marginTop: `${config?.margin && effectiveModalType === 'side' ? `${config.margin}px` : '0'}`,
+        transform: effectiveModalType === 'draggable' ? `translateY(${translateY}px)` : '',
+        boxShadow: effectiveModalType === 'draggable' ? config?.draggableConfig?.shadow : '',
       }">
 
       <div class="__modal-body">
         <!-- For Draggable -->
-        <div class="__modal-drag-handle" v-if="config?.type === 'draggable'" :class="{ __hidden: config?.draggableConfig?.hideHandle }" :style="{
+        <div class="__modal-drag-handle" v-if="effectiveModalType === 'draggable'" :class="{ __hidden: config?.draggableConfig?.hideHandle }" :style="{
           '--modal-draggable-handle-color': config?.draggableConfig?.handle?.color,
           '--modal-draggable-handle-hover-color': config?.draggableConfig?.handle?.hoverColor,
           '--modal-draggable-handle-active-color': config?.draggableConfig?.handle?.activeColor,
@@ -44,14 +44,26 @@ import { useDraggable } from './variants/dragable';
 const emit = defineEmits(['close']);
 const props = defineProps({
   config: Object as PropType<modalOptionsType>,
-  modalKeyIndex: Number
+  modalKeyIndex: Number,
+  mobileView: Boolean
+})
+
+
+const effectiveModalType = computed(() => {
+  if (!props.config) return 'modal'
+
+  if (props.mobileView && props.config.mobileType) {
+    return props.config.mobileType
+  } else {
+    return props.config.type
+  }
 })
 
 const refedModalOpen = ref(false)
-const isMobile = computed(() => window.innerWidth <= 768)
+// const isMobile = computed(() => window.innerWidth <= 768)
 
 const closeDialog = () => {
-  if (props.config?.type === 'draggable') {
+  if (effectiveModalType.value === 'draggable') {
     closePanel(); 
   } else {
     emit('close');
@@ -67,7 +79,7 @@ const { isDragging, translateY, startDrag, openPanel, closePanel, isAnimating } 
   emit('close'); // This gets called after the close animation completes
 }, refedModalOpen)
 const handleStartDrag = (event: PointerEvent) => {
-  if (props.config?.type === 'draggable') {
+  if (effectiveModalType.value === 'draggable') {
     startDrag(event);
   }
 };  
@@ -77,17 +89,17 @@ const handleCloseFromOutside = () => {
   }
 }
 const computedWidth = computed(() => {
-  if (props.config?.type == 'side') {
+  if (effectiveModalType.value === 'side') {
     return '100%';
   }
-  if (props.config?.width) {
+  if (props.config?.width && !props.mobileView) {
     return `${props.config?.width}px`;
   } else {
-    return '480px';
+    return props.mobileView ?'100%' :'480px';
   }
 });
 const computedheight = computed(() => {
-  if (props.config?.height && props.config.type !== 'draggable') {
+  if (props.config?.height && effectiveModalType.value !== 'draggable') {
     if (typeof props.config?.height == 'number') {
       return `${props.config?.height}px`;
     } else {
@@ -99,9 +111,9 @@ const computedheight = computed(() => {
 });
 const computeCorner = computed(() => {
   // compute corner radius top bottom side based on type
-  if (props.config?.type === 'side') {
+  if (effectiveModalType.value === 'side') {
     return `${props.config?.corner || '10px'} 0 0 ${props.config?.corner || '10px'}`;
-  } else if (props.config?.type === 'panel' || props.config?.type === 'draggable') {
+  } else if (effectiveModalType.value === 'panel' || effectiveModalType.value === 'draggable') {
     return `${props.config?.corner || '10px'} ${props.config?.corner || '10px'} 0 0`;
   } else {
     return `${props.config?.corner || '10px'}`;
@@ -127,24 +139,24 @@ let modal_class = ref({
 const anim_class = computed(() => {
 
   return props.config?.anim
-    ? modal_class.value[props.config?.type || 'modal'].anim_in
-    : modal_class.value[props.config?.type || 'modal'].anim_out;
+    ? modal_class.value[effectiveModalType.value || 'modal'].anim_in
+    : modal_class.value[effectiveModalType.value || 'modal'].anim_out;
 })
 
 const classesBasedOnType = computed(() => {
   let tempWrapperClass = '__modal-wrapper--centered';
   let tempModalClass = '__modal-content __modal-content--standard';
 
-  if (props.config?.type == 'modal') {
+  if (effectiveModalType.value == 'modal') {
     tempWrapperClass = '__modal-wrapper--centered';
     tempModalClass = '__modal-content __modal-content--standard';
-  } else if (props.config?.type == 'side') {
+  } else if (effectiveModalType.value == 'side') {
     tempWrapperClass = '__modal-wrapper--side';
     tempModalClass = '__modal-content __modal-content--side';
-  } else if (props.config?.type == 'panel') {
+  } else if (effectiveModalType.value == 'panel') {
     tempWrapperClass = '__modal-wrapper--panel';
     tempModalClass = '__modal-content __modal-content--panel';
-  } else if (props.config?.type == 'draggable') {
+  } else if (effectiveModalType.value == 'draggable') {
     tempWrapperClass = '__modal-wrapper--draggable';
     tempModalClass = `__modal-content __modal-content--draggable ${isDragging.value ? '__modal-content--dragging' : ''} ${isAnimating.value ? '__modal-content--animating' : ''}`;
   }
@@ -159,8 +171,8 @@ const classesBasedOnType = computed(() => {
 onMounted(() => {
   setTimeout(() => {
     refedModalOpen.value = true;
-    if(props.config?.type === 'draggable'){
-      openPanel(); // This now uses the smooth JavaScript animation
+    if(effectiveModalType.value === 'draggable'){
+      openPanel();
     }
   }, 100);
 });

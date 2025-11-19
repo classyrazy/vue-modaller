@@ -52,6 +52,9 @@ export default defineConfig(({ mode }) => {
         },
         cssCodeSplit: false,
       },
+      server:{
+        allowedHosts: ["chubbily-rancorous-mariko.ngrok-free.dev"]
+      }
     }
   }
 })

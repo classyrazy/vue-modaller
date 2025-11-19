@@ -54,7 +54,7 @@ export const useModal = (comp: Component, options?: {
         title: options?.config.title || "",
         margin: options?.config.margin || 0,
         height: options?.config.height || 0,
-        mobileType: options?.config.mobileType || "modal",
+        mobileType: options?.config.mobileType,
         draggableConfig: {
             shadow: options?.config.draggableConfig?.shadow || '0 -4px 12px rgba(0, 0, 0, 0.25)',
             initialPosition: options?.config.draggableConfig?.initialPosition || "half",
@@ -97,7 +97,7 @@ export const useModal = (comp: Component, options?: {
 export const closeModal = (data: any, modalIndexNum: number) => {
     // set a delay for animation to work 
     // Only set animation to false for the specific modal being closed
-    const {type} = modalOptions.value[modalIndexNum];
+    const {type, mobileType} = modalOptions.value[modalIndexNum];
     if (modalOptions.value[modalIndexNum]) {
         modalOptions.value[modalIndexNum].anim = false;
     }else{
@@ -141,7 +141,7 @@ export const closeModal = (data: any, modalIndexNum: number) => {
             console.log(e);
             throw new Error("Error in your onClosed function");
         }
-    }, type !== 'draggable' ? 500 : 0);
+    }, type !== 'draggable' && (mobileType !== 'draggable') ? 500 : 0);
     return data;
 };
 
