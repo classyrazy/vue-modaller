@@ -46,7 +46,7 @@ export const useModal = (comp: Component, options?: {
         background: options?.config.background || "white",
         padding: options?.config.padding || "20px",
         closeable: options?.config.closeable ?? true,
-        blur: options?.config.blur || true,
+        blur: options?.config.blur ?? true,
         corner: options?.config.corner || "10px",
         type: options?.config.type || "modal",
         open: true,
@@ -71,6 +71,7 @@ export const useModal = (comp: Component, options?: {
             }
         }
     }
+    console.log(configToBeUsed)
     modalOptions.value.push(configToBeUsed)
     modalProps.value.push({
         ...options?.props,
