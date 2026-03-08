@@ -89,6 +89,15 @@
 
 .__modal-content--side {
   height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.__modal-content--side .__modal-body{
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 @media (max-width: 900px) {

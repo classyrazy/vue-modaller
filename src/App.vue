@@ -43,8 +43,9 @@ const openSidePanel = async () => {
           type: 'side',
           closeable: true,
           corner: '20px',
+          padding: '100px',
           blur: false,
-          width: 100,
+          width: 800,
           mobileType: 'draggable',
     },
     props:{
