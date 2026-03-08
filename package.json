@@ -1,7 +1,7 @@
 {
   "name": "vue-modaller",
   "author": "Classydev (https://github.com/classyrazy)",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "description": "A flexible and powerful modal system for Vue 3 applications with TypeScript support, featuring draggable modals, side panels, and smooth animations",
   "private": false,

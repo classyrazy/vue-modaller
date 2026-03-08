@@ -90,7 +90,7 @@ const handleCloseFromOutside = () => {
 }
 const computedWidth = computed(() => {
   if (effectiveModalType.value === 'side') {
-    return '100%';
+    return props.config?.width ? `${props.config.width}px` : '100%';
   }
   if (props.config?.width && !props.mobileView) {
     return `${props.config?.width}px`;

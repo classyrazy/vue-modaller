@@ -44,6 +44,8 @@ const openSidePanel = async () => {
           closeable: true,
           corner: '20px',
           blur: false,
+          width: 100,
+          mobileType: 'draggable',
     },
     props:{
       message: 'Hello from App.vue!'

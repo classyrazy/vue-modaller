@@ -89,10 +89,9 @@
 
 .__modal-content--side {
   height: 100%;
-  max-width: 25rem;
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 900px) {
   .__modal-content--side {
     max-width: 30rem;
   }
